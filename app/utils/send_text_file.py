@@ -14,7 +14,7 @@ PAUSE_SEC = 3
 
 async def split_text_file(file_name):
     buffer_lines = f"{hbold(file_name)}:\n"
-    rez = list()
+    rez = []
     with open(file_name, 'r+') as in_file:
 
         for line in in_file:

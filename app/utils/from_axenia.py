@@ -32,7 +32,7 @@ async def get_html(url):
     timeout = aiohttp.ClientTimeout(total=60)
     async with aiohttp.ClientSession(timeout=timeout) as session:
         async with session.get(url) as r:
-            if not r.status == 200:
+            if r.status != 200:
                 raise CantImportFromAxenia(chat_id=url.split('=')[1])
             return await r.text()
 

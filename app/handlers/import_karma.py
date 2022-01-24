@@ -92,16 +92,15 @@ async def process_import_users_karmas(karmas_list: typing.List[type_karmas], cha
                     log_users.append(dict(source=(name, username, karma), found=user_tg.as_json()))
                     user = await User.get_or_create_from_tg_user(user_tg)
 
-            if user is not None:
-                if username is not None and username == user.username:
-                    await save_karma(user, chat.chat_id, karma)
-                else:
-                    to_approve.append(
-                        dict(name=name, username=username, karma=karma, founded_user=user_tg.as_json())
-                    )
-            else:
+            if user is None:
                 problems.append((name, username, karma))
 
+            elif username is not None and username == user.username:
+                await save_karma(user, chat.chat_id, karma)
+            else:
+                to_approve.append(
+                    dict(name=name, username=username, karma=karma, founded_user=user_tg.as_json())
+                )
     return log_users, to_approve, problems
 
 

@@ -37,13 +37,14 @@ def cli(config: Config):
     def auto_reload_mixin(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            if namespace.autoreload and aiohttp_autoreload:
-                logger.warning(
-                    "Application started in live-reload mode. Please disable it in production!"
-                )
-                aiohttp_autoreload.start()
-            elif namespace.autoreload and not aiohttp_autoreload:
-                logger.warning("`aiohttp_autoreload` is not installed.", err=True)
+            if namespace.autoreload:
+                if aiohttp_autoreload:
+                    logger.warning(
+                        "Application started in live-reload mode. Please disable it in production!"
+                    )
+                    aiohttp_autoreload.start()
+                else:
+                    logger.warning("`aiohttp_autoreload` is not installed.", err=True)
             return func(*args, **kwargs)
 
         return wrapper

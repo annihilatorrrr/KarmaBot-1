@@ -87,11 +87,11 @@ class User(Model):
 
     @property
     def mention_no_link(self):
-        if self.username:
-            rez = hlink(self.fullname, f"t.me/{self.username}")
-        else:
-            rez = quote_html(self.fullname)
-        return rez
+        return (
+            hlink(self.fullname, f"t.me/{self.username}")
+            if self.username
+            else quote_html(self.fullname)
+        )
 
     @property
     def fullname(self):
@@ -125,11 +125,12 @@ class User(Model):
             chat=chat,
             type_restriction=TypeRestriction.ro.name
         ).all()
-        for my_restriction in my_restrictions:
-            if my_restriction.timedelta_restriction \
-                    and my_restriction.date + my_restriction.timedelta_restriction > datetime.now():
-                return True
-        return False
+        return any(
+            my_restriction.timedelta_restriction
+            and my_restriction.date + my_restriction.timedelta_restriction
+            > datetime.now()
+            for my_restriction in my_restrictions
+        )
 
     def to_json(self):
         return dict(

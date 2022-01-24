@@ -28,9 +28,7 @@ class UserKarma(Model):
         unique_together = ('user', 'chat')
 
     def __str__(self):
-        # noinspection PyUnresolvedReferences
-        rez = f'UserKarma: id{self.uc_id}, karma: {self.karma}, user_id {self.user_id}, chat_id {self.chat_id}'
-        return rez
+        return f'UserKarma: id{self.uc_id}, karma: {self.karma}, user_id {self.user_id}, chat_id {self.chat_id}'
 
     def __repr__(self):
         return str(self)
@@ -90,9 +88,7 @@ class UserKarma(Model):
 
     @property
     def power(self) -> float:
-        if self.karma <= 0.0:
-            return 0
-        return sqrt(self.karma)
+        return 0 if self.karma <= 0.0 else sqrt(self.karma)
 
     @property
     def karma_round(self) -> float:

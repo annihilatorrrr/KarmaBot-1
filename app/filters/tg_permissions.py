@@ -42,11 +42,11 @@ class HasPermissions(Filter):
     def validate(
             cls, full_config: typing.Dict[str, typing.Any]
     ) -> typing.Optional[typing.Dict[str, typing.Any]]:
-        config = {}
-        for alias, argument in cls.ARGUMENTS.items():
-            if alias in full_config:
-                config[argument] = full_config.pop(alias)
-        return config
+        return {
+            argument: full_config.pop(alias)
+            for alias, argument in cls.ARGUMENTS.items()
+            if alias in full_config
+        }
 
     def _get_cached_value(self, message: types.Message):
         try:

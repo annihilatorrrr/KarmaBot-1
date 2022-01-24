@@ -22,5 +22,4 @@ class HasTargetFilter(BoundFilter):
         target_user = get_target_user(message, can_be_same, can_be_bot)
         if target_user is None:
             return {}
-        rez = {'target': target_user}
-        return rez
+        return {'target': target_user}

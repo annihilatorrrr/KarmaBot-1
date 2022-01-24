@@ -67,15 +67,15 @@ async def get_top(message: types.Message, chat: Chat, user: User, config: Config
 async def get_top(message: types.Message, user: User):
     logger.info("user {user} ask his karma", user=user.tg_id)
     uks = await get_me_info(user)
-    text = ""
-    for uk, number_in_top in uks:
-        text += f"\n{uk.chat.mention} <b>{uk.karma:.2f}</b> ({number_in_top})"
-    if text:
+    if text := "".join(
+        f"\n{uk.chat.mention} <b>{uk.karma:.2f}</b> ({number_in_top})"
+        for uk, number_in_top in uks
+    ):
         return await message.reply(
             f"У Вас есть карма в следующих чатах:{text}",
             disable_web_page_preview=True
         )
     await message.reply(
-        f"У Вас нет никакой кармы ни в каких чатах",
-        disable_web_page_preview=True
+        'У Вас нет никакой кармы ни в каких чатах',
+        disable_web_page_preview=True,
     )

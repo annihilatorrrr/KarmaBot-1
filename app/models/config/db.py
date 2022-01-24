@@ -17,12 +17,7 @@ class DBConfig:
     db_path: str = None
 
     def create_url_config(self):
-        if self.db_type == 'mysql':
-            db_url = (
-                f'{self.db_type}://{self.login}:{self.password}'
-                f'@{self.db_host}:{self.db_port}/{self.db_name}'
-            )
-        elif self.db_type == 'postgres':
+        if self.db_type in ['mysql', 'postgres']:
             db_url = (
                 f'{self.db_type}://{self.login}:{self.password}'
                 f'@{self.db_host}:{self.db_port}/{self.db_name}'

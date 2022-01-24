@@ -83,13 +83,10 @@ class Chat(Model):
     async def get_top_karma_list(self, limit: int = 15):
         await self.fetch_related('user_karma')
         users_karmas = await self.user_karma.order_by(*karma_filters).limit(limit).prefetch_related("user").all()
-        rez = []
-        for user_karma in users_karmas:
-            user = user_karma.user
-            karma = user_karma.karma_round
-            rez.append((user, karma))
-
-        return rez
+        return [
+            (user_karma.user, user_karma.karma_round)
+            for user_karma in users_karmas
+        ]
 
     # noinspection PyUnresolvedReferences
     async def get_neighbours(self, user) -> tuple['UserKarma', 'UserKarma', 'UserKarma']:  # noqa: F821

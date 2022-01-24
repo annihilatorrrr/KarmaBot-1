@@ -37,11 +37,11 @@ def format_output(list_karmas: typing.List[typing.Tuple[int, User, float]]) -> s
 
 
 def add_caption(text_list: str) -> str:
-    if text_list == "":
-        text = "Никто в чате не имеет кармы"
-    else:
-        text = "Список самых почётных пользователей чата:\n" + text_list
-    return text
+    return (
+        "Никто в чате не имеет кармы"
+        if not text_list
+        else "Список самых почётных пользователей чата:\n" + text_list
+    )
 
 
 def add_separator(text: str) -> str:
